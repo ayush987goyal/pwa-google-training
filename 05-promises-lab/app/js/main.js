@@ -16,31 +16,70 @@ limitations under the License.
 /*jshint esversion: 6*/
 
 var app = (function() {
-
   function getImageName(country) {
     // TODO 2.1 - create a promise
+    country = country.toLowerCase();
+
+    var promiseOfImageName = new Promise((resolve, reject) => {
+      setTimeout(() => {
+        if (country === 'spain' || country === 'chile' || country === 'peru') {
+          resolve(country + '.png');
+        } else {
+          reject(Error(`Didn't receive a valid country name!`));
+        }
+      }, 1000);
+    });
+
+    console.log(promiseOfImageName);
+    return promiseOfImageName;
   }
 
   function isSpain(country) {
     // TODO - Optional
+    return new Promise((resolve, reject) => {
+      country === 'Spain' ? resolve(true) : reject(Error('Not Spain'));
+    });
   }
 
   function flagChain(country) {
     // TODO 2.2 - use the promise
+    return getImageName(country)
+      .catch(fallbackName)
+      .then(fetchFlag)
+      .then(processFlag)
+      .then(appendFlag)
+      .catch(logError);
   }
 
   function spainTest(country) {
     // TODO - Optional
+    return isSpain(country)
+      .then(returnTrue)
+      .catch(returnFalse);
   }
 
   function allFlags(promiseList) {
     // TODO
+    return Promise.all(promiseList).catch(returnFalse);
   }
 
   // TODO 4.1 - Promise.all
+  var promises = [getImageName('Spain'), getImageName('Hello'), getImageName('Peru')];
+
+  allFlags(promises).then(result => console.log(result));
 
   // TODO 4.2 - Promise.race
+  var promise1 = new Promise((resolve, reject) => {
+    setTimeout(resolve, 500, 'one');
+  });
 
+  var promise2 = new Promise((resolve, reject) => {
+    setTimeout(reject, 100, 'two');
+  });
+
+  Promise.race([promise1, promise2])
+    .then(logSuccess)
+    .catch(logError);
   /* Helper functions */
 
   function logSuccess(result) {
@@ -85,14 +124,13 @@ var app = (function() {
   // We are using the JavaScript Module Pattern to enable unit testing of
   // our functions.
   return {
-    getImageName: (getImageName),
-    flagChain: (flagChain),
-    isSpain: (isSpain),
-    spainTest: (spainTest),
-    fetchFlag: (fetchFlag),
-    processFlag: (processFlag),
-    appendFlag: (appendFlag),
-    allFlags: (allFlags)
+    getImageName: getImageName,
+    flagChain: flagChain,
+    isSpain: isSpain,
+    spainTest: spainTest,
+    fetchFlag: fetchFlag,
+    processFlag: processFlag,
+    appendFlag: appendFlag,
+    allFlags: allFlags
   };
-
 })();
