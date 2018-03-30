@@ -15,6 +15,7 @@ limitations under the License.
 -->
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
 
   <meta name="author" content="//samdutton.com">
@@ -28,7 +29,28 @@ limitations under the License.
 
   <!-- TODO 4.1: Add manifest.json -->
 
+  <!-- Web Application Manifest -->
+  <link rel="manifest" href="manifest.json">
+
   <!-- TODO 4.3: Add tags for other browsers -->
+
+  <!-- Chrome for Android theme color -->
+  <meta name="theme-color" content="#2E3AA1">
+
+  <!-- Add to homescreen for Chrome on Android -->
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="application-name" content="Blog">
+  <link rel="icon" sizes="192x192" href="images/touch/icon-192x192.png">
+
+  <!-- Add to homescreen for Safari on iOS -->
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  <meta name="apple-mobile-web-app-title" content="Blog">
+  <link rel="apple-touch-icon" href="images/touch/icon-192x192.png">
+
+  <!-- Tile for Win8 -->
+  <meta name="msapplication-TileColor" content="#3372DF">
+  <meta name="msapplication-TileImage" content="images/touch/icon-192x192.png">
 
 </head>
 
@@ -56,7 +78,10 @@ limitations under the License.
 
       <h2>My blog post</h2>
 
-      <p class="lead">I love cheese, especially manchego swiss. ☺ Fromage queso jarlsberg cheesy feet emmental cottage cheese camembert de normandie bocconcini. Cottage cheese everyone loves cauliflower cheese rubber cheese squirty cheese halloumi cow fondue. Bocconcini cheese and biscuits everyone loves fondue red leicester st. agur blue cheese rubber cheese ricotta. Cheesy grin mozzarella.</p>
+      <p class="lead">I love cheese, especially manchego swiss. ☺ Fromage queso jarlsberg cheesy feet emmental cottage cheese camembert de
+        normandie bocconcini. Cottage cheese everyone loves cauliflower cheese rubber cheese squirty cheese halloumi cow
+        fondue. Bocconcini cheese and biscuits everyone loves fondue red leicester st. agur blue cheese rubber cheese ricotta.
+        Cheesy grin mozzarella.</p>
 
     </section>
 
@@ -74,6 +99,23 @@ limitations under the License.
   </footer>
 
   <!-- TODO 5.1: Add and register a service worker  -->
+  <script>
+    (function () {
+      if (!('serviceWorker' in navigator)) {
+        console.log('Service worker not supported');
+        return;
+      }
+
+      navigator.serviceWorker.register('./service-worker.js')
+        .then(registration => {
+          console.log('SW registered successfully');
+        })
+        .catch(error => {
+          console.log('registration failed', error);
+        });
+    })();
+  </script>
 
 </body>
+
 </html>
